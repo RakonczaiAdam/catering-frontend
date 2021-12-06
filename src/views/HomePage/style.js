@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 import Image from '../../assets/homepage-bg-1.jpg'; 
 
-const useStyle = makeStyles(theme =>({
+const useStyle = makeStyles({
     header: {
         backgroundColor: "#d1d1d1",
     },
@@ -19,6 +19,6 @@ const useStyle = makeStyles(theme =>({
     mainContent: {
         backgroundImage: `url(${Image})`
     },
-}))
+});
 
 export { useStyle }

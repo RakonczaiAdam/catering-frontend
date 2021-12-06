@@ -6,7 +6,6 @@ const api = axios.create({
 
 const getUsers = async () =>{
     const res = await api.get('/users').then((res)=>{
-        console.log(res.data);
         return res.data;
     }).catch((error)=>{
         console.log(error);

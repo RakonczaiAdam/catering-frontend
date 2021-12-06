@@ -9,7 +9,10 @@ const UserList = ()=>{
     return (
         <div>
             users:
-            {users}
+            {users.data[0].name}
+            {/* {users.data.map(user=>{
+                return(<li>{user.name}</li>)
+            })} */}
         </div>
     )
 }
