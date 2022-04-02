@@ -1,14 +1,14 @@
 import React from "react";
 import { useStyle } from "./style";
-import { AppBar, Box, Button, Container, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, Container, Toolbar, Typography } from '@material-ui/core';
 
 
 const HomePage = () =>{
     const classes = useStyle();
     return(
             <Container>
-                <Box sx={{flexGrow: 1}}>
-                    <AppBar position='static' className={classes.header}>
+                {/* <Box sx={{flexGrow: 1}}> */}
+                    <AppBar className={classes.header}>
                         <Toolbar>
                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} className={classes.headerText}>
                                 Log in as a 
@@ -22,13 +22,11 @@ const HomePage = () =>{
                             <Button variant='contained'  className = {classes.headerButton}>
                                 worker
                             </Button>
+                            <Button variant='contained'  className = {classes.headerButton}>
+                                Sing Up
+                            </Button>
                         </Toolbar>
                     </AppBar>
-                </Box>
-                <div className={classes.mainContent}>
-                    <h1>Catering Software</h1>
-                    <h3>About us</h3>
-                </div>
             </Container>
     )
 }
