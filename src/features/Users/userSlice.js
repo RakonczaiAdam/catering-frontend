@@ -10,16 +10,23 @@ let initialState = {
 
 export const fetchUserData = createAsyncThunk(
     'fetchUserData', 
-    async ()=>{
+    async (_, {dispatch})=>{
         const userData = await axios.get(`${url.DEV_API_URL}/users`)
+        // dispatch(setUsers(userData))
         return userData.data
     }
 )
 
+// const userAdapter = createEntityAdapter({
+//   selectId: ({id}) => id,
+// })
+
 export const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    // setUsers: userAdapter.setMany,
+  },
   extraReducers : {// (builder) => {
     // builder
     // .addCase(fetchUserData.pending, (state)=>{
@@ -45,6 +52,6 @@ export const userSlice = createSlice({
   },
 })
 
-//export const { setUsers } = userSlice.actions
+export const { setUsers } = userSlice.actions
 
 export default userSlice.reducer
