@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { url } from '../../config';
+import { url, validation_errors } from '../../config';
 
 const initialState = {
     companyName: "",
@@ -11,11 +11,13 @@ const initialState = {
     city: "",
     address:"",
     taxNumber: "",
-    email: ""
+    email: "",
+    phoneNumber: "",
+    validate: ""
 }
 
 export const registerCompany = createAsyncThunk(
-    'registerCompany',
+    'companies/registration',
     async (companyData)=>{
         const response = await axios.post(`${url.DEV_API_URL}/companies/registration`, companyData)
         return response.data
@@ -55,17 +57,31 @@ export const companySlice = createSlice({
                 case "country":
                     state.country = action.payload.value
                     break;
+                case "phoneNumber":
+                    state.phoneNumber = action.payload.value
+                    break;
                 default:
                     console.log("Wrong target name")
             }
+        },
+        validatePassword: (state)=>{
+            if(state.password !== state.passwordAgain){
+                state.validate = validation_errors.PASSWORD_ERROR
+            }else{
+                state.validate = validation_errors.VALID
+            }
         }
     },
-    extraReducers:{
-        [registerCompany.fulfilled] (state){
+    extraReducers: {
+        [registerCompany.fulfilled](state){
+            state.validate = validation_errors.VALID
+        },
+        [registerCompany.rejected](state){
+            state.validate = validation_errors.UNIQUE_FIELD_CONFLICT
         }
-    },
+    }
 })
 
-export const { dataChangeHandler } = companySlice.actions
+export const { dataChangeHandler, validatePassword } = companySlice.actions
 
 export default companySlice.reducer

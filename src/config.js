@@ -8,3 +8,10 @@ export const http_status = Object.freeze({
     REJECTED : 'REJECTED',
 })
 
+export const validation_errors = Object.freeze({
+    VALID : "VALID",
+    PASSWORD_ERROR: "PASSWORD_ERROR",
+    UNIQUE_FIELD_CONFLICT: "UNIQUE_FIELD_CONFLICT",
+    EMPTY_FIELD: "EMPTY_FIELD"
+})
+

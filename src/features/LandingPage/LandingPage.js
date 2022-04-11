@@ -28,7 +28,7 @@ const LandingPage = () =>{
                             here
                         </Button>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} className={classes.headerText}>
-                            ,or 
+                            or 
                         </Typography>
                         <Button 
                             color="primary"

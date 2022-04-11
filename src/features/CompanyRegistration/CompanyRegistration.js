@@ -5,8 +5,10 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import { useStyle } from './style';
 import { Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { dataChangeHandler, registerCompany } from './companySlice';
+import { dataChangeHandler, registerCompany, validatePassword } from './companySlice';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from '@mui/material';
+import { validation_errors } from '../../config';
 
 
 const CompanyRegistration = ()=>{
@@ -17,6 +19,9 @@ const CompanyRegistration = ()=>{
 
     const changeHandler = (e)=>{
         dispatch(dataChangeHandler({name: e.target.name, value: e.target.value}))
+        if(companyRegistrationData.passwordAgain.length > 0){
+            dispatch(validatePassword())
+        }
     }
 
     return (
@@ -28,10 +33,26 @@ const CompanyRegistration = ()=>{
             >
                 Company Registration 
             </Typography>
+            {companyRegistrationData.validate === validation_errors.PASSWORD_ERROR &&
+                <Alert severity='error' spacing = {2}>
+                    The password again field has to be the same as the password
+                </Alert>
+            }
+            {companyRegistrationData.validate === validation_errors.UNIQUE_FIELD_CONFLICT &&
+                <Alert severity='error' spacing = {2}>
+                    This company name is already exsist
+                </Alert>
+            }
+            {companyRegistrationData.validate === validation_errors.EMPTY_FIELD &&
+                <Alert severity='error' spacing = {2}>
+                    All field has to be filled
+                </Alert>
+            }
             <form>
                 <Grid container columnSpacing={6}>
                     <Grid item xs={6}>
                         <TextField 
+                            required
                             name="country"
                             onChange={changeHandler}
                             fullWidth
@@ -43,6 +64,7 @@ const CompanyRegistration = ()=>{
 
                     <Grid item xs={6}>
                         <TextField 
+                            required
                             name="companyName"
                             onChange={changeHandler}
                             fullWidth
@@ -54,6 +76,7 @@ const CompanyRegistration = ()=>{
 
                     <Grid item xs={6}>
                         <TextField 
+                            required
                             name="region"
                             onChange={changeHandler}
                             fullWidth
@@ -65,6 +88,31 @@ const CompanyRegistration = ()=>{
 
                     <Grid item xs={6}>
                         <TextField 
+                            required
+                            name="phoneNumber"
+                            onChange={changeHandler}
+                            fullWidth
+                            variant='outlined'
+                            label='Phone Number' 
+                            className={classes.field}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField 
+                            required
+                            name="city"
+                            onChange={changeHandler}
+                            fullWidth
+                            variant='outlined'
+                            label='City' 
+                            className={classes.field}
+                        />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <TextField 
+                            required
                             type="email"
                             name="email"
                             onChange={changeHandler}
@@ -77,17 +125,19 @@ const CompanyRegistration = ()=>{
 
                     <Grid item xs={6}>
                         <TextField 
-                            name="city"
+                            required
+                            name="address"
                             onChange={changeHandler}
                             fullWidth
                             variant='outlined'
-                            label='City' 
+                            label='Address' 
                             className={classes.field}
                         />
                     </Grid>
 
                     <Grid item xs={6}>
                         <TextField 
+                            required
                             type="password"
                             name="password"
                             onChange={changeHandler}
@@ -100,34 +150,25 @@ const CompanyRegistration = ()=>{
 
                     <Grid item xs={6}>
                         <TextField 
-                            name="address"
+                            required
+                            name="taxNumber"
                             onChange={changeHandler}
                             fullWidth
                             variant='outlined'
-                            label='Address' 
+                            label='Tax Number' 
                             className={classes.field}
                         />
                     </Grid>
 
                     <Grid item xs={6}>
                         <TextField 
+                            required
                             type="password"
                             name="passwordAgain"
                             onChange={changeHandler}
                             fullWidth
                             variant='outlined'
                             label='Password Again' 
-                            className={classes.field}
-                        />
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <TextField 
-                            name="taxNumber"
-                            onChange={changeHandler}
-                            fullWidth
-                            variant='outlined'
-                            label='Tax Number' 
                             className={classes.field}
                         />
                     </Grid>
@@ -157,9 +198,14 @@ const CompanyRegistration = ()=>{
                         endIcon={<ArrowRightIcon color='primary' fontSize='small'/>}
                         onClick={
                             ()=>{
-                                dispatch(registerCompany(companyRegistrationData)).unwrap().then((responseData)=>{
-                                    navigate("/login")
-                                })
+                                if(companyRegistrationData.validate !== validation_errors.PASSWORD_ERROR &&
+                                    companyRegistrationData.validate !== validation_errors.EMPTY_FIELD){
+                                    dispatch(registerCompany(companyRegistrationData)).unwrap().then(()=>{
+                                        if(companyRegistrationData.validate === validation_errors.VALID){
+                                            navigate("/login")
+                                        }
+                                    })
+                                }
                             }
                         }
                     >

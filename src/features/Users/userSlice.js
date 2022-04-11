@@ -9,7 +9,7 @@ let initialState = {
 }
 
 export const fetchUserData = createAsyncThunk(
-    'fetchUserData', 
+    'users/', 
     async (_, {dispatch})=>{
         const userData = await axios.get(`${url.DEV_API_URL}/users`)
         // dispatch(setUsers(userData))
