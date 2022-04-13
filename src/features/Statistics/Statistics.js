@@ -1,11 +1,11 @@
 import React from "react";
 
-const HomePage = ()=>{
+const Statistics = ()=>{
     return(
         <div>
-            HomePage
+            Statistics
         </div>
     )
 }
 
-export { HomePage }
+export { Statistics }

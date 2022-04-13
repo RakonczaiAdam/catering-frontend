@@ -5,6 +5,10 @@ const useStyle = makeStyles({
         marginTop : 20,
         marginBottom: 20,
         display: 'block',
+        width: "70%"
+    },
+    selectField: {
+        width: "70%"
     }
 })
 
