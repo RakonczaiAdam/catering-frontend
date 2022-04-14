@@ -3,12 +3,16 @@ import counterReducer from './Counter/counterSlice'
 import userReducer from './Users/userSlice'
 import companyReducer from './CompanyRegistration/companySlice'
 import loginReducer from './LoginPage/loginSlice'
+import storeReducer from './Stores/storeSlice'
+import layoutReducer from './Layout/layoutSlice'
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     users: userReducer,
     company: companyReducer,
-    login: loginReducer
+    login: loginReducer,
+    store: storeReducer,
+    layout: layoutReducer
   },
 })

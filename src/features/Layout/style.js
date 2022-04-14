@@ -27,7 +27,10 @@ const useStyle = makeStyles((theme)=>{
         appbar: {
             width: `calc(100% - ${drawerWidth})`
         },
-        toolbar: theme.mixins.toolbar
+        toolbar: theme.mixins.toolbar,
+        companyData: {
+            flexGrow: 1
+        }
     }
 })
 

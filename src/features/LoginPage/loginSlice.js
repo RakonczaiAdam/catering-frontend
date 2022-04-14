@@ -5,8 +5,6 @@ import { url, http_status } from "../../config";
 const initialState = {
     userName: "",
     password: "",
-    accessToken: "",
-    refreshToken: "",
     loginState: "",
     companies: [],
     companyId: 0
@@ -25,6 +23,19 @@ export const userLogin = createAsyncThunk(
     async (loginData) =>{
         const response = await axios.post(`${url.DEV_API_URL}/users/login`, loginData)
         return response.data
+    }
+)
+
+// Don't use the requests.js file, to prevent infinite reference error
+export const refreshToken = createAsyncThunk(
+    'users/token',
+    async ()=>{
+        const config = {
+            token: window.localStorage.getItem("refreshToken")
+        }
+        
+        const accessToken = await axios.post(`${url.DEV_API_URL}/users/token`, config)//post("/users/token", config, dispatch)
+        return accessToken.data
     }
 )
 
@@ -57,14 +68,18 @@ export const loginSlice = createSlice({
         },
         [userLogin.fulfilled](state, {payload}){
             state.loginState = http_status.FULFILLED
-            state.accessToken = payload.accessToken
-            state.refreshToken = payload.refreshToken
+            window.localStorage.setItem("accessToken", payload.accessToken)
+            window.localStorage.setItem("refreshToken", payload.refreshToken)
         },
         [userLogin.rejected](state){
             state.loginState = http_status.REJECTED
         },
         [fetchCompanies.fulfilled](state, {payload}){
             state.companies = payload
+        },
+        [refreshToken.fulfilled](state, {payload}){
+            console.log(payload.accessToken)
+            window.localStorage.setItem("accessToken", payload.accessToken)
         }
     }
 })

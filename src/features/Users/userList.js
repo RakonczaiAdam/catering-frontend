@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const UserList = ()=>{
     const  {usersData}  = useSelector((state) => state.users)
-    console.log(usersData)
     return(
         <Box>
             <Grid container spacing = {2}>

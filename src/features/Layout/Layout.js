@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStyle } from './style';
-import {  Drawer, Typography, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {  Drawer, Typography, List, ListItem, ListItemIcon, ListItemText, IconButton } from "@mui/material";
 import StoreMallDirectoryIcon from '@mui/icons-material/StoreMallDirectory';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { findLoggedUser, findUserCompany } from './layoutSlice';
 
 const Layout = ({ children })=>{
     const classes = useStyle()
     const navigate = useNavigate()
     const location = useLocation()
+    const dispatch = useDispatch()
+    const loginData = useSelector(state => state.layout)
+
+    useEffect(()=>{
+        dispatch(findUserCompany())
+        dispatch(findLoggedUser())
+    }, [dispatch])
     const menuItems = [
         {
             text: "Stores",
@@ -47,9 +57,23 @@ const Layout = ({ children })=>{
                 className={classes.appbar}
             >
                 <Toolbar>
-                    <Typography>
-                        Company name
+                    <Typography className={classes.companyData}>
+                        company: {loginData.userCompany?.companyName}
                     </Typography>
+                    <Typography>
+                        {loginData.loggedUser?.userName}
+                    </Typography>
+                    <IconButton 
+                        sx={{color: "white"}} 
+                        component="span" 
+                        onClick={()=>{
+                            window.localStorage.removeItem("refreshToken")
+                            window.localStorage.removeItem("accessToken")
+                            navigate("/")
+                        }}
+                    >
+                        <LogoutIcon/>
+                    </IconButton>
                 </Toolbar>
             </AppBar>
 
@@ -81,7 +105,6 @@ const Layout = ({ children })=>{
                                     }
                                 }
                                 selected={location.pathname === item.path}
-                                //className={location.pathname === item.path ? classes.active : null}
                             >
                                 <ListItemIcon>
                                     {item.icon}
