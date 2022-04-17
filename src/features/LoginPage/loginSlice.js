@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { url, http_status } from "../../config";
+import { url, http_status, validation_errors } from "../../config";
 
 const initialState = {
     userName: "",
     password: "",
     loginState: "",
     companies: [],
-    companyId: 0
+    companyId: 0,
+    validate: ""
 }
 
 export const fetchCompanies = createAsyncThunk(
@@ -33,8 +34,7 @@ export const refreshToken = createAsyncThunk(
         const config = {
             token: window.localStorage.getItem("refreshToken")
         }
-        
-        const accessToken = await axios.post(`${url.DEV_API_URL}/users/token`, config)//post("/users/token", config, dispatch)
+        const accessToken = await axios.post(`${url.DEV_API_URL}/users/token`, config)
         return accessToken.data
     }
 )
@@ -58,8 +58,22 @@ export const loginSlice = createSlice({
                     console.log("Wrong target name")
             }
         },
+        validateEmptyFields: (state)=>{
+            if(state.userName==="" || 
+                state.password==="" ||
+                state.company=== 0
+            ){
+                state.validate = validation_errors.EMPTY_FIELD
+            }else{
+                state.validate = validation_errors.VALID
+            }
+        },
         refreshLoginState: (state)=>{
             state.loginState = ""
+            state.userName = ""
+            state.companyId = 0
+            state.password = ""
+            state.validate = ""
         }
     },
     extraReducers: {
@@ -68,22 +82,24 @@ export const loginSlice = createSlice({
         },
         [userLogin.fulfilled](state, {payload}){
             state.loginState = http_status.FULFILLED
+            state.validate = validation_errors.VALID
+            console.log("fulfilled most "+state.loginState)
             window.localStorage.setItem("accessToken", payload.accessToken)
             window.localStorage.setItem("refreshToken", payload.refreshToken)
         },
         [userLogin.rejected](state){
+            state.validate = validation_errors.LOGIN_ERROR
             state.loginState = http_status.REJECTED
         },
         [fetchCompanies.fulfilled](state, {payload}){
             state.companies = payload
         },
         [refreshToken.fulfilled](state, {payload}){
-            console.log(payload.accessToken)
             window.localStorage.setItem("accessToken", payload.accessToken)
         }
     }
 })
 
-export const { dataChangeHandler, refreshLoginState } = loginSlice.actions
+export const { dataChangeHandler, refreshLoginState, validateEmptyFields } = loginSlice.actions
 
 export default loginSlice.reducer

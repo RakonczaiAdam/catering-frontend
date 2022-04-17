@@ -70,6 +70,32 @@ export const companySlice = createSlice({
             }else{
                 state.validate = validation_errors.VALID
             }
+        },
+        validateEmptyFields: (state)=>{
+            if(state.companyName === "" || 
+                state.country === "" || 
+                state.region=== "" || 
+                state.city === "" || 
+                state.address === "" || 
+                state.password === "" ||
+                state.phoneNumber === "" ||
+                state.email === "" ||
+                state.taxNumber === ""
+            ){
+                state.validate = validation_errors.EMPTY_FIELD
+            }
+        },
+        refreshCompanyState: (state)=>{
+                state.companyName = ""
+                state.country  = ""
+                state.region = "" 
+                state.city  = ""
+                state.address  = "" 
+                state.password  = ""
+                state.phoneNumber  = ""
+                state.email  = ""
+                state.taxNumber = ""
+                state.validate = ""
         }
     },
     extraReducers: {
@@ -82,6 +108,6 @@ export const companySlice = createSlice({
     }
 })
 
-export const { dataChangeHandler, validatePassword } = companySlice.actions
+export const { dataChangeHandler, validatePassword, validateEmptyFields, refreshCompanyState } = companySlice.actions
 
 export default companySlice.reducer

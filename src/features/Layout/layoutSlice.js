@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { get } from '../../requests'
 
 const initialState = {
-    loggedUser : null,
-    userCompany: null
+    loggedUser : {},
+    userCompany: {},
 }
 
 export const findLoggedUser = createAsyncThunk(
@@ -18,7 +18,7 @@ export const findLoggedUser = createAsyncThunk(
 )
 
 export const findUserCompany = createAsyncThunk(
-    'users/getOne', 
+    'companies/findCompanyByUser', 
     async (__, {dispatch}) => {
         const config = {
             headers : { 'authorization': `Bearer ${window.localStorage.getItem("accessToken")}` }
@@ -31,23 +31,18 @@ export const findUserCompany = createAsyncThunk(
 export const layoutSlice = createSlice({
     name: "layoutSlice",
     initialState,
+    reducers: {},
     extraReducers: {
         [findLoggedUser.fulfilled](state, {payload}){
             state.loggedUser = payload
         },
-        [findLoggedUser.rejected](state, {payload}){
-            console.log(payload)
-        },
         [findUserCompany.fulfilled](state, {payload}){
             state.userCompany = payload
-        },
-        [findUserCompany.rejected](state, {payload}){
-            console.log(payload)
         }
     }
 })
 
-// export const {} = layoutSlice.actions
+// export const {switchInserSubExpand} = layoutSlice.actions
 
 export default layoutSlice.reducer
 

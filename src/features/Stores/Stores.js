@@ -4,17 +4,17 @@ import { fetchStoresById } from "./storeSlice";
 
 const Stores = ()=>{
     const dispatch = useDispatch()
-    const storesData = useSelector(state => state.store)
+    const stores = useSelector(state => state.store.stores)
     useEffect(()=>{
-        dispatch(fetchStoresById()).unwrap().catch(error=>{
-            console.log(error)
-        })
+        dispatch(fetchStoresById())
     }, [dispatch])
     return (
         <div>
-            {storesData.stores?.map(store => {
+            {stores?.map(store => {
                 return(
-                    <div>{store.storeName}</div>
+                    <div key={store.id}>
+                        {store.storeName}
+                    </div>
                 )
             })}
         </div>

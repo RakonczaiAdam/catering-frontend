@@ -20,8 +20,8 @@ const Layout = ({ children })=>{
     const loginData = useSelector(state => state.layout)
 
     useEffect(()=>{
-        dispatch(findUserCompany())
         dispatch(findLoggedUser())
+        dispatch(findUserCompany())
     }, [dispatch])
     const menuItems = [
         {

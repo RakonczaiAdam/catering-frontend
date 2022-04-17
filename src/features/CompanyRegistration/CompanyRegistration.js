@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, TextField, Button, Typography } from '@material-ui/core';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import { useStyle } from './style';
 import { Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { dataChangeHandler, registerCompany, validatePassword } from './companySlice';
+import { dataChangeHandler, registerCompany, validatePassword, validateEmptyFields, refreshCompanyState } from './companySlice';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { validation_errors } from '../../config';
@@ -17,11 +17,16 @@ const CompanyRegistration = ()=>{
     const navigate = useNavigate()
     const companyRegistrationData = useSelector(state => state.company)
 
+    useEffect(()=>{
+        dispatch(refreshCompanyState())
+    }, [dispatch])
+
     const changeHandler = (e)=>{
         dispatch(dataChangeHandler({name: e.target.name, value: e.target.value}))
         if(companyRegistrationData.passwordAgain.length > 0){
             dispatch(validatePassword())
         }
+        dispatch(validateEmptyFields())
     }
 
     return (
@@ -198,7 +203,7 @@ const CompanyRegistration = ()=>{
                         endIcon={<ArrowRightIcon color='primary' fontSize='small'/>}
                         onClick={
                             ()=>{
-                                if(companyRegistrationData.validate !== validation_errors.PASSWORD_ERROR &&
+                                if(companyRegistrationData.validate !== validation_errors.PASSWORD_ERROR &&     
                                     companyRegistrationData.validate !== validation_errors.EMPTY_FIELD){
                                     dispatch(registerCompany(companyRegistrationData)).unwrap().then(()=>{
                                         if(companyRegistrationData.validate === validation_errors.VALID){

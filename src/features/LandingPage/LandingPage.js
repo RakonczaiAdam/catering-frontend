@@ -1,16 +1,13 @@
 import React from "react";
 import { useStyle } from "./style";
-import { AppBar, Button, Container, Toolbar, Typography,  } from '@material-ui/core';
+import { AppBar, Button, Toolbar, Typography,  } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom'
-import { Box } from "@mui/material";
-
 
 const LandingPage = () =>{
     const classes = useStyle();
     const navigate = useNavigate()
     return(
-            <Container>
-                {/* <Box sx={{flexGrow: 1}}> */}
+            <div className={classes.mainContent} xs={{height: "100%"}}>
                 <AppBar className={classes.header}>
                     <Toolbar >
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} className={classes.headerText}>
@@ -47,10 +44,13 @@ const LandingPage = () =>{
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Box className={classes.mainContent}>
-                    asdsdaaaaaaaaaaaaaaaaaaaaaaaaaa
-                </Box>
-            </Container>
+                <div>
+                    <div className={classes.toolbar}></div>
+                    <Typography className={classes.intro} variant="h6" component="div">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus urna, dictum eget sem eu, semper volutpat turpis. Ut luctus volutpat nulla, ac tincidunt nisl egestas a. Mauris et massa bibendum, blandit velit in, tempus dui. Praesent elementum arcu lobortis, placerat lectus non, iaculis eros. Proin fermentum et erat vitae facilisis. Fusce quam diam, pharetra non volutpat sit amet, porta sit amet nisl. Sed a est et nisl commodo faucibus ut at enim.
+                    </Typography>
+                </div>
+            </div>
     )
 }
 

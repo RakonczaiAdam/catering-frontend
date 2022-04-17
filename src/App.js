@@ -59,6 +59,18 @@ function App() {
               <Licences/>
             </Layout>
           )}/>
+
+          <Route path='/insert-store' element={(
+            <Layout>
+              <Licences/>
+            </Layout>
+          )}/>
+
+          <Route path='/insert-user' element={(
+            <Layout>
+              <Licences/>
+            </Layout>
+          )}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

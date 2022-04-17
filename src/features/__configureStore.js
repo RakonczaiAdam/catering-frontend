@@ -5,6 +5,7 @@ import companyReducer from './CompanyRegistration/companySlice'
 import loginReducer from './LoginPage/loginSlice'
 import storeReducer from './Stores/storeSlice'
 import layoutReducer from './Layout/layoutSlice'
+import insertDataReducer from './InsertData/insertDataSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     company: companyReducer,
     login: loginReducer,
     store: storeReducer,
-    layout: layoutReducer
+    layout: layoutReducer,
+    insertData: insertDataReducer
   },
 })

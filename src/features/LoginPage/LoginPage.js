@@ -7,8 +7,8 @@ import { Grid } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 import { useDispatch, useSelector } from "react-redux";
-import { dataChangeHandler, fetchCompanies, refreshLoginState, userLogin } from "./loginSlice";
-import { http_status } from "../../config";
+import { dataChangeHandler, fetchCompanies, refreshLoginState, userLogin, validateEmptyFields } from "./loginSlice";
+import { http_status, validation_errors } from "../../config";
 
 const LoginPage = ()=>{
     const classes = useStyle()
@@ -23,10 +23,22 @@ const LoginPage = ()=>{
 
     const changeHandler = (e)=>{
         dispatch(dataChangeHandler({name: e.target.name, value: e.target.value}))
+        dispatch(validateEmptyFields())
+    }
+    const handleNavigation =()=>{
+        if(loginData.validate === validation_errors.VALID){
+            navigate("/stores")
+        }
     }
 
     return (
         <Container sx={{ textAlign: 'center', width: '100%'}}>
+
+            {loginData.validate === validation_errors.EMPTY_FIELD &&
+                <Alert severity='error' spacing = {2}>
+                    Empty fields not allowed
+                </Alert>
+            }
 
             {loginData.loginState === http_status.REJECTED &&
                 <Alert severity='error' spacing = {2}>
@@ -114,12 +126,11 @@ const LoginPage = ()=>{
                                     variant='contained'
                                     endIcon={<ArrowRightIcon color='primary' fontSize='small'/>}
                                     onClick={
-                                        ()=>{
-                                            dispatch(userLogin(loginData)).unwrap().then(()=>{
-                                                if(loginData.loginState === http_status.FULFILLED){
-                                                    navigate("/stores")
-                                                }
-                                            })
+                                        async ()=>{
+                                            if(loginData.validate === validation_errors.VALID){
+                                                await dispatch(userLogin(loginData))
+                                                handleNavigation()
+                                            }
                                         }
                                     }
                                 >

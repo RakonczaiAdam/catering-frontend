@@ -8,24 +8,14 @@ const initialState = {
 export const fetchStoresById = createAsyncThunk(
     'stores/company',
     async (__, {dispatch})=>{
-        // const config = {
-        //     headers : { 
-        //         'Content-Type': 'application/json',
-        //         'authorization': `Bearer ${accessToken}`
-        //     }
-        // }
-        // const fetchStores = await axios.get(`${url.DEV_API_URL}/stores/company`, config).catch(error =>{
-        //     if(error.response?.data.errorType === "TokenExpiredError"){
-        //         return error.response.data.errorType
-        //     }
-        // })
         const config = {
             headers : { 
                 'Content-Type': 'application/json',
                 'authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
             }
         }
-        const fetchStores = get("/stores/company", config, dispatch)
+        const fetchStores = await get("/stores/company", config, dispatch)
+        console.log(fetchStores.data)
         return fetchStores.data
     }
 )
