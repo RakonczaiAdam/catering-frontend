@@ -25,12 +25,6 @@ const LoginPage = ()=>{
         dispatch(dataChangeHandler({name: e.target.name, value: e.target.value}))
         dispatch(validateEmptyFields())
     }
-    const handleNavigation =()=>{
-        if(loginData.validate === validation_errors.VALID){
-            navigate("/stores")
-        }
-    }
-
     return (
         <Container sx={{ textAlign: 'center', width: '100%'}}>
 
@@ -126,10 +120,13 @@ const LoginPage = ()=>{
                                     variant='contained'
                                     endIcon={<ArrowRightIcon color='primary' fontSize='small'/>}
                                     onClick={
-                                        async ()=>{
+                                        ()=>{
                                             if(loginData.validate === validation_errors.VALID){
-                                                await dispatch(userLogin(loginData))
-                                                handleNavigation()
+                                                dispatch(userLogin(loginData)).unwrap().then(()=>{
+                                                    if(loginData.validate === validation_errors.VALID){
+                                                        navigate("/stores")
+                                                    }
+                                                })
                                             }
                                         }
                                     }

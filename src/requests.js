@@ -41,6 +41,7 @@ export const del = async (path, config, dispatch)=>{
     const request = await axios.delete(url.DEV_API_URL+path, config).catch( async (error) =>{
         if(error.response?.data.errorType === "TokenExpiredError"){
             await dispatch(refreshToken())
+            config.headers['authorization'] = `Bearer ${window.localStorage.getItem("accessToken")}`
             const requestAgain = await axios.delete(url.DEV_API_URL+path, config)
             return requestAgain
         }
@@ -53,6 +54,7 @@ export const put = async (path, config, dispatch)=>{
     const request = await axios.put(url.DEV_API_URL+path, config).catch( async (error) =>{
         if(error.response?.data.errorType === "TokenExpiredError"){
             await dispatch(refreshToken())
+            config.headers['authorization'] = `Bearer ${window.localStorage.getItem("accessToken")}`
             const requestAgain = await axios.put(url.DEV_API_URL+path, config)
             return requestAgain
         }

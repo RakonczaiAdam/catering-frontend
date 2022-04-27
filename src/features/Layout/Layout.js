@@ -10,7 +10,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { findLoggedUser, findUserCompany } from './layoutSlice';
+import { findLoggedUser, findUserCompany, resetStores } from './layoutSlice';
+import { changeOptionValue } from "../InsertData/insertDataSlice";
 
 const Layout = ({ children })=>{
     const classes = useStyle()
@@ -18,7 +19,6 @@ const Layout = ({ children })=>{
     const location = useLocation()
     const dispatch = useDispatch()
     const loginData = useSelector(state => state.layout)
-
     useEffect(()=>{
         dispatch(findLoggedUser())
         dispatch(findUserCompany())
@@ -67,6 +67,7 @@ const Layout = ({ children })=>{
                         sx={{color: "white"}} 
                         component="span" 
                         onClick={()=>{
+                            dispatch(resetStores())
                             window.localStorage.removeItem("refreshToken")
                             window.localStorage.removeItem("accessToken")
                             navigate("/")
@@ -101,6 +102,7 @@ const Layout = ({ children })=>{
                                 button
                                 onClick={
                                     ()=>{
+                                        dispatch(changeOptionValue(""))
                                         navigate(item.path)
                                     }
                                 }

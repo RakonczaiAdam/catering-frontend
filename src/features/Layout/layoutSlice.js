@@ -31,7 +31,11 @@ export const findUserCompany = createAsyncThunk(
 export const layoutSlice = createSlice({
     name: "layoutSlice",
     initialState,
-    reducers: {},
+    reducers: {
+        resetStores: (state)=>{
+            state = initialState
+        }
+    },
     extraReducers: {
         [findLoggedUser.fulfilled](state, {payload}){
             state.loggedUser = payload
@@ -42,7 +46,7 @@ export const layoutSlice = createSlice({
     }
 })
 
-// export const {switchInserSubExpand} = layoutSlice.actions
+export const {resetStores} = layoutSlice.actions
 
 export default layoutSlice.reducer
 

@@ -20,7 +20,7 @@ const useStyle = makeStyles((theme)=>{
             marginBottom: 20,
             display: 'block',
         },
-        storeCrud:{
+        crudContent:{
             marginTop: "5%",
             width: '100%'
         },
@@ -29,6 +29,10 @@ const useStyle = makeStyles((theme)=>{
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis"
+        },
+        alert:{
+            marginTop: "5%",
+            marginBottom: "5%"
         }
     }
 })

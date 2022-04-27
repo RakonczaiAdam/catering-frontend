@@ -83,13 +83,14 @@ export const loginSlice = createSlice({
         [userLogin.fulfilled](state, {payload}){
             state.loginState = http_status.FULFILLED
             state.validate = validation_errors.VALID
-            console.log("fulfilled most "+state.loginState)
+            console.log("fulfilled most "+state.validate)
             window.localStorage.setItem("accessToken", payload.accessToken)
             window.localStorage.setItem("refreshToken", payload.refreshToken)
         },
         [userLogin.rejected](state){
             state.validate = validation_errors.LOGIN_ERROR
             state.loginState = http_status.REJECTED
+            console.log("fulfilled most "+state.validate)
         },
         [fetchCompanies.fulfilled](state, {payload}){
             state.companies = payload

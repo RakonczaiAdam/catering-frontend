@@ -6,7 +6,7 @@ const initialState = {
 }
 
 export const fetchStoresById = createAsyncThunk(
-    'stores/company',
+    'stores/userStores',
     async (__, {dispatch})=>{
         const config = {
             headers : { 
@@ -14,8 +14,7 @@ export const fetchStoresById = createAsyncThunk(
                 'authorization': `Bearer ${window.localStorage.getItem("accessToken")}`
             }
         }
-        const fetchStores = await get("/stores/company", config, dispatch)
-        console.log(fetchStores.data)
+        const fetchStores = await get("/stores/userStores", config, dispatch)
         return fetchStores.data
     }
 )

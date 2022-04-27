@@ -1,5 +1,5 @@
 import { TextField } from '@material-ui/core';
-import { Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
+import { Alert, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useStyle } from "./style";
@@ -22,7 +22,27 @@ const StoreCrudPage = ()=>{
         dispatch(insertStoreChangeHandler({name: e.target.name, value: e.target.value}))
     }
     return (
-        <div className={classes.storeCrud}>
+        <div className={classes.crudContent}>
+            {insertStoreChangeData.insertState === http_status.FULFILLED && 
+                <Alert severity='success' spacing = {2} className={classes.alert}>
+                    Store data inserted correctly 
+                </Alert>
+            }
+            {insertStoreChangeData.insertState === http_status.REJECTED &&
+                <Alert severity='error' spacing = {2} className={classes.alert}>
+                    Error during store data insert
+                </Alert>
+            }
+            {insertStoreChangeData.deleteState === http_status.FULFILLED && 
+                <Alert severity='success' spacing = {2} className={classes.alert}>
+                    Store data deleted correctly 
+                </Alert>
+            }
+            {insertStoreChangeData.deleteState === http_status.REJECTED &&
+                <Alert severity='error' spacing = {2} className={classes.alert}>
+                    Error during store data delete
+                </Alert>
+            }
             <form>
                 <Grid container columnSpacing={2}>
                     <Grid item xs={2}>
@@ -81,11 +101,10 @@ const StoreCrudPage = ()=>{
                             component="span" 
                             onClick={
                                 async ()=>{
-                                    await dispatch(createStoreInstance(insertStoreChangeData))/*.unwrap().then(()=>{})*/
-                                    if(insertStoreChangeData.insertState === http_status.FULFILLED){
-                                        dispatch(fetchStoresById())
-                                    }
-                            }}
+                                    await dispatch(createStoreInstance(insertStoreChangeData))
+                                    dispatch(fetchStoresById())
+                                }
+                            }
                         >
                             <ArrowCircleRightIcon color='primary'/>
                         </IconButton>
@@ -122,9 +141,7 @@ const StoreCrudPage = ()=>{
                                                 onClick={
                                                     async ()=>{
                                                         await dispatch(deleteStore(store.id))
-                                                        if(insertStoreChangeData.deleteState === http_status.FULFILLED){
-                                                            dispatch(fetchStoresById())
-                                                        }
+                                                        dispatch(fetchStoresById())
                                                     }
                                                 }
                                             >
