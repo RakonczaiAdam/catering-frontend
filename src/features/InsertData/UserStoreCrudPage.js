@@ -126,8 +126,8 @@ const UserStoreCrudPage = ()=>{
                                             <IconButton
                                                 component="span"
                                                 onClick={
-                                                    ()=>{
-                                                        dispatch(deleteUserStore(userStore.id))
+                                                    async ()=>{
+                                                        await dispatch(deleteUserStore(userStore.id))
                                                         dispatch(fetchUserStoreByCompany())
                                                     }
                                                 }

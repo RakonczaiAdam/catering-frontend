@@ -6,6 +6,7 @@ import loginReducer from './LoginPage/loginSlice'
 import storeReducer from './Stores/storeSlice'
 import layoutReducer from './Layout/layoutSlice'
 import insertDataReducer from './InsertData/insertDataSlice'
+import tableReducer from './Tables/tablesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     login: loginReducer,
     store: storeReducer,
     layout: layoutReducer,
-    insertData: insertDataReducer
+    insertData: insertDataReducer,
+    table: tableReducer
   },
 })

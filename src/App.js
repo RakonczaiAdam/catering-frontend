@@ -10,7 +10,8 @@ import InsertData from './features/InsertData';
 import Stores from './features/Stores';
 import Statistics from './features/Statistics';
 import Coupons from './features/Coupons';
-import Licences from './features/Licences'
+import Licences from './features/Licences';
+import Tables from './features/Tables';
 
 const theme = createTheme({
   palette :{
@@ -69,6 +70,12 @@ function App() {
           <Route path='/insert-user' element={(
             <Layout>
               <Licences/>
+            </Layout>
+          )}/>
+
+          <Route path='/tables' element={(
+            <Layout>
+              <Tables/>
             </Layout>
           )}/>
         </Routes>

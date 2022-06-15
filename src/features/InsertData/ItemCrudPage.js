@@ -206,8 +206,8 @@ const ItemCrudPage = ()=>{
                                                 <IconButton 
                                                     component="span" 
                                                     onClick={
-                                                        ()=>{
-                                                            dispatch(deleteItem(item.id))
+                                                        async ()=>{
+                                                            await dispatch(deleteItem(item.id))
                                                             dispatch(fetchItemByCompany())
                                                         }
                                                     }
