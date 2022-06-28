@@ -1,6 +1,7 @@
+import env from 'react-dotenv';
 
 export const url = Object.freeze ({
-    DEV_API_URL : 'http://localhost:3001/api',
+    DEV_API_URL : env.API_URL,
 })
 export const http_status = Object.freeze({
     PENDING : 'PENDING', 
